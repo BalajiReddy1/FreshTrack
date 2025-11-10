@@ -1,0 +1,52 @@
+# ==========================================
+# ANDROID / KOTLIN PROJECT GITIGNORE (FRESHTRACK)
+# ==========================================
+
+# === Gradle ===
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+/local.properties
+.gradle_app.setting
+gradle-app.setting
+
+# === IntelliJ / Android Studio ===
+*.iml
+.idea/
+!.idea/codeStyles
+!.idea/runConfigurations
+
+# === Kotlin / KSP Generated ===
+# Ignore generated code, but keep Room schemas
+app/build/
+app/build/generated/
+!app/schemas/**
+
+# === Room / Database Schemas ===
+# Keep JSON schema exports for future migrations
+!app/schemas/
+!app/schemas/**/*.json
+
+# === Native Build Folders ===
+.externalNativeBuild/
+.cxx/
+
+# === OS / Temporary Files ===
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+
+# === Captures / Profiling ===
+captures/
+outputs/
+
+# === JetBrains Kotlin Cache ===
+.kotlin/
+out/
+
+# === Misc ===
+*.apk
+*.aab
+*.keystore
