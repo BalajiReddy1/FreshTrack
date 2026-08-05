@@ -66,6 +66,14 @@ rules tests — all passing.
 - [x] Runs on a background worker; failure never blocks the UI
 - [x] Sync engine has no Firebase dependency, so its logic is JVM-testable
 
+### Compliance & consent
+- [x] **Account deletion** — in-app flow; remote-first ordering so data is never
+      stranded; rules allow owner hard-delete.
+- [x] **Analytics consent gate** — Analytics and Crashlytics OFF by default via
+      manifest flags; turned on only after explicit consent. First-run prompt,
+      plus a Settings toggle to change or withdraw anytime. This unblocks the
+      privacy policy.
+
 ### Phase 1 follow-ups and quality
 - [x] **Notifications reworked** — urgency tiering, the item named when there is
       only one, and a "Mark as used" action. Also fixed already-expired items
@@ -102,8 +110,6 @@ rules tests — all passing.
 
 - [ ] **Deferred auth** — show Login only when a cloud feature is tapped, not at
       startup. This is the code change that realises the two-tier decision.
-- [ ] **Analytics consent gate** — off by default, on only after consent. Must
-      land before the new privacy policy goes live.
 - [ ] **Play Billing Cloud Function** — nothing sets `isPremium`, so sync is
       currently inert for every user. This is the blocker.
 - [ ] **Deploy the rules** — `firebase deploy --only firestore:rules`. They exist
@@ -130,8 +136,10 @@ Not bugs to fix today, but things that are true and should not be forgotten.
   claims the previous user's unclaimed rows. Narrow, but real.
 - **Release build never verified.** `isMinifyEnabled = true` and nobody has
   confirmed the barcode lookup works in a minified release APK.
-- **Analytics contradicts the store listing.** It says "no data collection"
-  while Analytics and Crashlytics are active.
+- **Store listing wording still says "no data collection".** Analytics is now
+  off-by-default and opt-in, but the listing copy and Data Safety form still
+  need updating to match, and the "no data collection" phrase should become
+  "offline-first; optional, opt-in analytics".
 - **Duplicate prevention covers import only.** Adding the same item twice by
   hand is still possible; only CSV import checks for duplicates.
 - **Widget rendering unverified.** Provider registers and the refresh path runs,

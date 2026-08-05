@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -30,6 +31,7 @@ fun DashboardScreen(
     viewModel: DashboardViewModel = koinViewModel()
 ) {
     RequestNotificationPermissionSimple()
+    AnalyticsConsentPrompt()
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
@@ -368,4 +370,47 @@ private fun SectionHeader(
             )
         }
     }
+}
+/**
+ * First-run consent prompt for analytics and crash reporting.
+ *
+ * Shown once, only if the user has not already decided. Framed as a genuine
+ * choice with a plain "No thanks" that is not a dark pattern: declining is one
+ * tap and costs nothing. DPDP requires specific, informed consent, so this asks
+ * only about analytics and states plainly that it is optional.
+ */
+@Composable
+private fun AnalyticsConsentPrompt() {
+    val consentPreferences: com.example.freshtrack.data.preferences.ConsentPreferences =
+        org.koin.compose.koinInject()
+
+    var show by remember { mutableStateOf(!consentPreferences.hasDecided()) }
+    if (!show) return
+
+    fun decide(granted: Boolean) {
+        consentPreferences.setAnalyticsConsent(granted)
+        com.example.freshtrack.util.AnalyticsHelper.applyConsent(granted)
+        show = false
+    }
+
+    AlertDialog(
+        // Dismissing without choosing is treated as "no": consent must be a
+        // deliberate opt-in, never the default.
+        onDismissRequest = { decide(false) },
+        icon = { Icon(Icons.Outlined.Insights, contentDescription = null) },
+        title = { Text("Help improve FreshTrack?") },
+        text = {
+            Text(
+                "We can collect anonymous usage and crash data to fix bugs and " +
+                    "improve the app. This is optional, never includes your food " +
+                    "items, and you can change it anytime in Settings."
+            )
+        },
+        confirmButton = {
+            TextButton(onClick = { decide(true) }) { Text("Allow") }
+        },
+        dismissButton = {
+            TextButton(onClick = { decide(false) }) { Text("No thanks") }
+        }
+    )
 }

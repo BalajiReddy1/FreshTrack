@@ -76,6 +76,20 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <!-- Analytics and crash reporting are OFF by default. These stop
+             Firebase collecting on startup; the app turns them on at runtime
+             only after the user consents. Using _enabled (not _deactivated) so
+             runtime enabling still works once consent is given. -->
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="google_analytics_default_allow_analytics_storage"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false" />
+
         <!-- Handles "Mark as used" tapped on an expiry notification. Not
              exported: only our own PendingIntent may trigger it. -->
         <receiver

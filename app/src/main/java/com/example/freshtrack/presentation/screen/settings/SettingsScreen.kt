@@ -57,6 +57,9 @@ fun SettingsScreen(
     val productSyncer: com.example.freshtrack.data.sync.ProductSyncer = koinInject()
     val syncPreferences: com.example.freshtrack.data.preferences.SyncPreferences = koinInject()
 
+    val consentPreferences: com.example.freshtrack.data.preferences.ConsentPreferences = koinInject()
+    var analyticsConsent by remember { mutableStateOf(consentPreferences.isAnalyticsGranted()) }
+
     val accountDeleter: com.example.freshtrack.data.account.AccountDeleter = koinInject()
     var showDeleteAccountDialog by remember { mutableStateOf(false) }
     var deleteConfirmText by remember { mutableStateOf("") }
@@ -339,6 +342,24 @@ fun SettingsScreen(
                             syncStatus = describeSync(result, syncPreferences.lastSuccessAt())
                             isSyncing = false
                         }
+                    }
+                )
+            }
+
+            // Privacy Section
+            SettingsSection(
+                title = "Privacy",
+                icon = Icons.Outlined.Shield
+            ) {
+                SettingsSwitchCard(
+                    icon = Icons.Outlined.Analytics,
+                    title = "Share anonymous usage data",
+                    description = "Off by default. Helps improve the app. You can change this anytime.",
+                    checked = analyticsConsent,
+                    onCheckedChange = { granted ->
+                        analyticsConsent = granted
+                        consentPreferences.setAnalyticsConsent(granted)
+                        com.example.freshtrack.util.AnalyticsHelper.applyConsent(granted)
                     }
                 )
             }

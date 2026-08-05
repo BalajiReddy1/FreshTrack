@@ -27,6 +27,11 @@ class FreshTrackApplication : Application() {
         crashLoopDetector.onAppStarting()
 
         com.example.freshtrack.util.AnalyticsHelper.init()
+        // Apply the stored consent immediately. Off by default via the manifest,
+        // so a user who has never consented has nothing collected.
+        com.example.freshtrack.util.AnalyticsHelper.applyConsent(
+            com.example.freshtrack.data.preferences.ConsentPreferences(this).isAnalyticsGranted()
+        )
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onStop(owner: LifecycleOwner) {

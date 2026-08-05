@@ -119,6 +119,9 @@ val preferencesModule = module {
     // Onboarding Preferences
     single { OnboardingPreferences(androidContext()) }
 
+    // Analytics consent
+    single { com.example.freshtrack.data.preferences.ConsentPreferences(androidContext()) }
+
     // Sync watermarks
     single { com.example.freshtrack.data.preferences.SyncPreferences(androidContext()) }
 }
