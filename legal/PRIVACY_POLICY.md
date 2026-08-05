@@ -90,8 +90,8 @@ You can exercise the most common of these directly in the app: edit your profile
 
 As required by the DPDP Act, you can raise any privacy concern or request with:
 
-**Grievance Officer:** [GRIEVANCE OFFICER NAME]
-**Email:** [GRIEVANCE OFFICER EMAIL]
+**Grievance Officer:** Balaji Thukuntala
+**Email:** privacy@arkayenlabs.com
 **On behalf of:** Arkayen Labs
 
 We aim to respond within the timeframe required by law.
@@ -113,5 +113,5 @@ If we change this policy, we will update the date above and, for material change
 ## 13. Contact
 
 Questions about this policy or your data:
-**Email:** [SUPPORT EMAIL]
+**Email:** privacy@arkayenlabs.com
 **Developer:** Arkayen Labs
