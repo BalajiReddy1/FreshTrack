@@ -32,10 +32,10 @@ Your food inventory (item names, categories, expiry dates, quantities, notes, an
 ### d. Analytics and crash reports (off by default, opt-in)
 Analytics and crash reporting are switched off when you install the app. We ask you once whether to enable them, and you can change your choice at any time in Settings > Privacy. Only if you turn them on do we collect:
 - App activity, such as which features you use and when
-- Product categories and scanned barcode values associated with those actions
+- The broad category of an item involved in an action (for example "Dairy"), never the item's name
 - Crash logs and basic diagnostic information (device model, operating system version, app version) to help us fix problems
 
-This data is processed by Google Firebase Analytics and Firebase Crashlytics. It never includes the names of your food items or your notes. If you never enable it, none of this is collected.
+This data is processed by Google Firebase Analytics and Firebase Crashlytics. It never includes the names of your food items, your notes, or scanned barcode numbers. If you never enable it, none of this is collected.
 
 ### e. Barcode lookups
 When you scan a barcode, the barcode number (and nothing else) is sent to OpenFoodFacts, a third-party open food database, to look up the product name and category. No personal information is sent with it.

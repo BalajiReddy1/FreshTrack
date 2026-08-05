@@ -34,11 +34,13 @@ object AnalyticsHelper {
         }
     }
 
-    fun logItemScanned(barcode: String) {
-        val bundle = Bundle().apply {
-            putString("barcode", barcode)
-        }
-        firebaseAnalytics?.logEvent("item_scanned", bundle)
+    /**
+     * Records that a scan happened, without the barcode value. The raw barcode
+     * is deliberately not sent: it is more than an anonymous usage metric needs,
+     * and logging exact scan values sits poorly with a privacy-first app.
+     */
+    fun logItemScanned() {
+        firebaseAnalytics?.logEvent("item_scanned", null)
     }
 
     fun logItemAdded(category: String, hasBarcode: Boolean) {
