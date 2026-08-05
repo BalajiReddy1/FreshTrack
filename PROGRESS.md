@@ -87,8 +87,23 @@ rules tests — all passing.
 
 ---
 
+## Decisions
+
+- **Two tiers only: Guest (free, offline) + Premium (cloud).** Login is not a
+  tier; it is the gateway to premium. A free logged-in tier was rejected because
+  it was functionally identical to guest. Concretely this means finishing
+  deferred auth: stop showing Login as the default first screen, and prompt
+  sign-in only when a guest taps a cloud feature. Guest data already claims into
+  the account on sign-in. Decided Aug 2026.
+
+---
+
 ## Next
 
+- [ ] **Deferred auth** — show Login only when a cloud feature is tapped, not at
+      startup. This is the code change that realises the two-tier decision.
+- [ ] **Analytics consent gate** — off by default, on only after consent. Must
+      land before the new privacy policy goes live.
 - [ ] **Play Billing Cloud Function** — nothing sets `isPremium`, so sync is
       currently inert for every user. This is the blocker.
 - [ ] **Deploy the rules** — `firebase deploy --only firestore:rules`. They exist

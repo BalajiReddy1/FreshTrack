@@ -46,6 +46,7 @@
 - **Categories are food-only:** Fresh Produce, Dairy, Bakery, Beverages, Pantry, Leftovers, Other. No Medicine/Cosmetics.
 - **`notificationEnabled` stays in `ProductEntity`** (DB field) even though the UI toggle was removed — do not drop this column.
 - **No emoji in UI strings.** Use Material icons only.
+- **Two tiers only: Guest (free) and Premium.** Login is NOT a middle tier — it is the gateway to premium. Guest is the full free offline app with no account; a user signs in only when they buy premium or tap a cloud feature, and their guest data claims into the new account. Do not build "free logged-in" perks — that tier does not exist by design.
 - **Guest mode:** Users can skip login. Flag stored in `OnboardingPreferences.isGuestMode()`. Splash screen checks this.
 - **`toggleNotification()` has been removed** from `AddEditProductViewModel` — do not re-add.
 - **Impact stats are derived from Room, never counted separately.** `resolvedDate` is stamped in `ProductRepositoryImpl.markAsConsumed/markAsDiscarded` so every call site is covered. Do not reintroduce a counter store — a previous `UserRetentionPreferences` did this and silently missed dashboard-initiated resolutions.
