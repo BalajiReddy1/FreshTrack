@@ -115,11 +115,21 @@ fun FreshTrackNavGraph(
                     val isGuest = onboardingPreferences.isGuestMode()
                     val onboardingDone = onboardingPreferences.isOnboardingCompleted()
 
+                    // Deferred auth: never force Login at startup. A user who has
+                    // finished onboarding but not signed in is a guest by default;
+                    // they reach Login only when they tap a cloud feature.
                     val nextDestination = when {
                         isLoggedIn -> Screen.Dashboard.route
                         isGuest -> Screen.Dashboard.route
                         !onboardingDone -> Screen.Onboarding.route
-                        else -> Screen.Login.route
+                        else -> Screen.Dashboard.route
+                    }
+
+                    // Make the guest state explicit for anyone landing on the
+                    // Dashboard without an account, so later launches route the
+                    // same way and the guest banner shows correctly.
+                    if (!isLoggedIn && nextDestination == Screen.Dashboard.route) {
+                        onboardingPreferences.setGuestMode(true)
                     }
 
                     navController.navigate(nextDestination) {
@@ -132,9 +142,13 @@ fun FreshTrackNavGraph(
         // ─── Onboarding ───────────────────────────────────────────────────────────
         composable(Screen.Onboarding.route) {
             OnboardingScreen(
+                // Both finishing and skipping the intro drop the user into the
+                // app as a guest. Neither forces a login; that only happens later
+                // when they choose a cloud feature.
                 onComplete = {
                     onboardingPreferences.setOnboardingCompleted()
-                    navController.navigate(Screen.Login.route) {
+                    onboardingPreferences.setGuestMode(true)
+                    navController.navigate(Screen.Dashboard.route) {
                         popUpTo(Screen.Onboarding.route) { inclusive = true }
                     }
                 },

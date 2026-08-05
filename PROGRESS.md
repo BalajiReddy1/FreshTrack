@@ -66,6 +66,11 @@ rules tests — all passing.
 - [x] Runs on a background worker; failure never blocks the UI
 - [x] Sync engine has no Firebase dependency, so its logic is JVM-testable
 
+### Two-tier model
+- [x] **Deferred auth** — Login is no longer forced at startup. New users land on
+      the Dashboard as guests; Login is reached only on intent (Settings sign-in
+      banner or a cloud feature). Realises the Guest + Premium decision.
+
 ### Compliance & consent
 - [x] **Account deletion** — in-app flow; remote-first ordering so data is never
       stranded; rules allow owner hard-delete.
@@ -108,8 +113,6 @@ rules tests — all passing.
 
 ## Next
 
-- [ ] **Deferred auth** — show Login only when a cloud feature is tapped, not at
-      startup. This is the code change that realises the two-tier decision.
 - [ ] **Play Billing Cloud Function** — nothing sets `isPremium`, so sync is
       currently inert for every user. This is the blocker.
 - [ ] **Deploy the rules** — `firebase deploy --only firestore:rules`. They exist
@@ -148,8 +151,6 @@ Not bugs to fix today, but things that are true and should not be forgotten.
   tapped on a device.
 - **CSV file picker unverified.** Parsing and dedupe are tested; choosing a real
   file through the picker is not.
-- **Deferred auth is really skippable auth.** Users still see a Login screen
-  with a Skip, rather than no login until a cloud feature is touched.
 - **Store listing statistic** still uses the US figure. Play Console task.
 
 ---

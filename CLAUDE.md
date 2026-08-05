@@ -60,10 +60,14 @@
 SplashScreen
   ├── Firebase user logged in → Dashboard
   ├── Guest mode (OnboardingPreferences.isGuestMode()) → Dashboard
-  ├── Onboarding not done → OnboardingScreen → Login (or Skip → guest → Dashboard)
-  └── else → LoginScreen → Dashboard
-                         └── "Continue without account" → guest → Dashboard
+  ├── Onboarding not done → OnboardingScreen → (Get Started or Skip) → guest → Dashboard
+  └── else → Dashboard (as guest)
 ```
+
+**Deferred auth:** Login is never forced at startup. A new user lands on the
+Dashboard as a guest. Login is reached only on intent — the Settings "Using as
+Guest → Sign In" banner, or tapping a cloud feature. On sign-in, guest data
+claims into the account.
 
 Settings "Sign Out" clears guest flag AND Firebase session, returns to Login.
 
