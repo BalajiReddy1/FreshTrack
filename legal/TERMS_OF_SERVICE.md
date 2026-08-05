@@ -17,7 +17,7 @@ FreshTrack helps you track food items and their expiry dates, receive reminders,
 
 ## 3. Accounts
 
-An account is optional and only needed for cloud features such as backup, sync, and household sharing. You are responsible for keeping your sign-in details secure and for activity that happens under your account. You can delete your account at any time from Settings > Delete Account, or via [DELETION PAGE URL].
+An account is optional and only needed for cloud features such as backup, sync, and household sharing. You are responsible for keeping your sign-in details secure and for activity that happens under your account. You can delete your account at any time from Settings > Delete Account, or via https://www.arkayenlabs.com/privacy/freshtrack/delete-account.
 
 ## 4. Acceptable use
 

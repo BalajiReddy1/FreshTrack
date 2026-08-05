@@ -84,7 +84,7 @@ Under India's Digital Personal Data Protection Act, and subject to it, you may:
 - **Erase** it
 - **Nominate** another person to exercise these rights on your behalf, for example if you are unable to
 
-You can exercise the most common of these directly in the app: edit your profile, and delete your account and all associated data at any time via Settings > Delete Account. You may also delete your account by visiting [DELETION PAGE URL] or by emailing us. For any other request, contact our Grievance Officer below.
+You can exercise the most common of these directly in the app: edit your profile, and delete your account and all associated data at any time via Settings > Delete Account. You may also delete your account by visiting https://www.arkayenlabs.com/privacy/freshtrack/delete-account or by emailing us. For any other request, contact our Grievance Officer below.
 
 ## 9. Grievance Officer
 
