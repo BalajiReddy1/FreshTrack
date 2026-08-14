@@ -648,7 +648,8 @@ fun SettingsScreen(
                     enabled = !isDeletingAccount,
                     onClick = { showDeleteAccountDialog = false }
                 ) { Text("Cancel") }
-            }
+            },
+            shape = RoundedCornerShape(24.dp)
         )
     }
 

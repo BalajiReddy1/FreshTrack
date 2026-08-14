@@ -342,11 +342,16 @@ fun CategoryChip(
     onSelected: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Maps the actual food categories. Previously mapped removed categories
+    // (Food/Cosmetics/Medicines), so every real category fell to the default and
+    // they all showed the same icon.
     val icon = when (category.name) {
-        "Food" -> Icons.Outlined.Restaurant
-        "Cosmetics" -> Icons.Outlined.Face
-        "Medicines" -> Icons.Outlined.MedicalServices
+        "Fresh Produce" -> Icons.Outlined.Eco
+        "Dairy" -> Icons.Outlined.WaterDrop
+        "Bakery" -> Icons.Outlined.BakeryDining
         "Beverages" -> Icons.Outlined.LocalCafe
+        "Pantry" -> Icons.Outlined.Kitchen
+        "Leftovers" -> Icons.Outlined.TakeoutDining
         else -> Icons.Outlined.Category
     }
 
@@ -367,7 +372,13 @@ fun CategoryChip(
                 Text(
                     category.name,
                     style = MaterialTheme.typography.bodySmall,
-                    fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal
+                    fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+                    // "Fresh Produce" is long enough to wrap. Center it over up to
+                    // two lines so it reads cleanly instead of wrapping raggedly;
+                    // the chip is tall enough (72dp) to hold two centered lines.
+                    maxLines = 2,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
             }
         },

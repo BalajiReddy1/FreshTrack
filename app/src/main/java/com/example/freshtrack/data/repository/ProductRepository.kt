@@ -26,6 +26,12 @@ interface ProductRepository {
     suspend fun markAsConsumed(productId: String)
     suspend fun markAsDiscarded(productId: String)
     suspend fun updateProductQuantity(productId: String, newQuantity: Int)
+
+    /** Uses up [amount] units, recording them in history and impact. */
+    suspend fun consumeUnits(productId: String, amount: Int)
+
+    /** Discards [amount] units, recording them in history and impact. */
+    suspend fun discardUnits(productId: String, amount: Int)
     fun getActiveProductCount(): Flow<Int>
     fun getConsumedProducts(): Flow<List<Product>>
     fun getDiscardedProducts(): Flow<List<Product>>
@@ -163,6 +169,47 @@ class ProductRepositoryImpl(
                 it.copy(quantity = newQuantity, updatedAt = System.currentTimeMillis())
             )
         }
+    }
+
+    override suspend fun consumeUnits(productId: String, amount: Int) =
+        resolveUnits(productId, amount, consumed = true)
+
+    override suspend fun discardUnits(productId: String, amount: Int) =
+        resolveUnits(productId, amount, consumed = false)
+
+    /**
+     * Resolves [amount] units of a multi-unit item.
+     *
+     * If the whole item is used up, it is marked consumed or discarded as before.
+     * Otherwise the used portion is split off as its own resolved row and the
+     * original's quantity is reduced. This is what makes using 1 of 2 show up in
+     * History and Impact: the impact figures count resolved rows, so a partial
+     * use has to become a resolved row to be counted, rather than silently
+     * decrementing a quantity and recording nothing.
+     */
+    private suspend fun resolveUnits(productId: String, amount: Int, consumed: Boolean) {
+        val product = productDao.getProductByIdOnce(pantry(), productId) ?: return
+        val now = System.currentTimeMillis()
+
+        if (amount >= product.quantity) {
+            if (consumed) productDao.markAsConsumed(pantry(), productId, now)
+            else productDao.markAsDiscarded(pantry(), productId, now)
+            return
+        }
+
+        val resolvedPortion = product.copy(
+            id = java.util.UUID.randomUUID().toString(),
+            quantity = amount,
+            originalQuantity = amount,
+            isConsumed = consumed,
+            isDiscarded = !consumed,
+            resolvedDate = now,
+            updatedAt = now
+        )
+        productDao.insertProduct(resolvedPortion)
+        productDao.updateProduct(
+            product.copy(quantity = product.quantity - amount, updatedAt = now)
+        )
     }
 
     override fun getActiveProductCount(): Flow<Int> {

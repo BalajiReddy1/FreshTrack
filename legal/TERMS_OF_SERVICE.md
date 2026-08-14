@@ -79,6 +79,6 @@ We may update these Terms. We will update the date above and, for material chang
 
 ## 15. Contact
 
-**Email:** privacy@arkayenlabs.com
+**Email:** support@arkayenlabs.com
 **Developer:** Arkayen Labs
 **Privacy Policy:** https://www.arkayenlabs.com/privacy/freshtrack

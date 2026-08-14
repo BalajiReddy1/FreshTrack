@@ -266,28 +266,22 @@ class ProductDetailsViewModel(
     fun consumeQuantity(amount: Int, onSuccess: () -> Unit) {
         val product = _uiState.value.product ?: return
         viewModelScope.launch {
-            val remaining = product.quantity - amount
-            if (remaining <= 0) {
-                productRepository.markAsConsumed(product.id)
-                com.example.freshtrack.util.AnalyticsHelper.logItemConsumed(product.category, product.isExpired())
-                onSuccess()
-            } else {
-                productRepository.updateProductQuantity(product.id, remaining)
-            }
+            // Records the used units in History and Impact even when only part of
+            // the item is used, rather than silently decrementing the quantity.
+            productRepository.consumeUnits(product.id, amount)
+            com.example.freshtrack.util.AnalyticsHelper.logItemConsumed(product.category, product.isExpired())
+            // Only leave the screen when the whole item is gone; a partial use
+            // keeps the remainder on the details screen.
+            if (amount >= product.quantity) onSuccess()
         }
     }
 
     fun discardQuantity(amount: Int, onSuccess: () -> Unit) {
         val product = _uiState.value.product ?: return
         viewModelScope.launch {
-            val remaining = product.quantity - amount
-            if (remaining <= 0) {
-                productRepository.markAsDiscarded(product.id)
-                com.example.freshtrack.util.AnalyticsHelper.logItemDiscarded(product.category)
-                onSuccess()
-            } else {
-                productRepository.updateProductQuantity(product.id, remaining)
-            }
+            productRepository.discardUnits(product.id, amount)
+            com.example.freshtrack.util.AnalyticsHelper.logItemDiscarded(product.category)
+            if (amount >= product.quantity) onSuccess()
         }
     }
 }

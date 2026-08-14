@@ -364,22 +364,29 @@ fun StatCard(
 }
 
 // Helper functions
+// Colours for the current food-only categories. The old mapping still referenced
+// removed categories (food/medicine/cosmetics), so everything but Beverages fell
+// through to the same colour.
 private fun getCategoryColor(category: String): Color {
     return when (category.lowercase()) {
-        "food" -> CategoryFood
-        "medicine" -> CategoryMedicine
-        "cosmetics" -> CategoryCosmetics
-        "beverages" -> CategoryBeverages
+        "fresh produce" -> Color(0xFF4CAF50)
+        "dairy" -> Color(0xFF2196F3)
+        "bakery" -> Color(0xFFFF9800)
+        "beverages" -> Color(0xFF00BCD4)
+        "pantry" -> Color(0xFF795548)
+        "leftovers" -> Color(0xFFFF5722)
         else -> CategoryOther
     }
 }
 
 private fun getCategoryIcon(category: String): ImageVector {
     return when (category.lowercase()) {
-        "food" -> Icons.Default.Restaurant
-        "medicine" -> Icons.Default.MedicalServices
-        "cosmetics" -> Icons.Default.Face
-        "beverages" -> Icons.Default.LocalDrink
+        "fresh produce" -> Icons.Default.Eco
+        "dairy" -> Icons.Default.WaterDrop
+        "bakery" -> Icons.Default.BakeryDining
+        "beverages" -> Icons.Default.LocalCafe
+        "pantry" -> Icons.Default.Kitchen
+        "leftovers" -> Icons.Default.TakeoutDining
         else -> Icons.Default.Category
     }
 }
